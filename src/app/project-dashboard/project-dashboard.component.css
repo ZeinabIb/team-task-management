@@ -1,0 +1,35 @@
+
+
+.form-container{
+
+  padding: 70px;
+
+}
+
+.member-name{
+  padding:7px;
+  border-radius: 30px;
+  padding-right: 9px;
+  padding-left: 9px;
+  margin-left: 7px;
+}
+
+.member-name:hover{
+  background-color: #f2f2f2;
+  cursor: pointer;
+}
+
+.project-badge{
+position: absolute;
+  top: 0;
+  right: 0;
+
+
+  margin-right: 10px;
+  margin-top: 10px;
+
+}
+
+.project-badge i{
+  margin-right: 10px;
+}
