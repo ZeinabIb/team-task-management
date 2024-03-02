@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { ProjectDashboardComponent } from './project-dashboard/project-dashboard.component';
 import { HeaderComponent } from './header/header.component';
 import { TeamComponent } from './team/team.component';
+import { HttpClientModule } from '@angular/common/http';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { TeamComponent } from './team/team.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

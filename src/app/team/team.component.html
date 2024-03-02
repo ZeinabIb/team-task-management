@@ -1,14 +1,77 @@
 <div class="row container" >
-  <div class="col-xs-12" >
-   <h1>Team List</h1>
-   <div class="list-group">
-    <a href="#" class="list-group-item">
-      <h4>Zeinab Ibrahim</h4>
-      <p id="position">position : Project Manager</p>
+
+  <div class="col-xs-9" >
+    <h1 class="lead">Team List</h1>
+   <div class="input-group input-group-lg">
+    <input type="text" class="form-control" placeholder="Search">
+    <div class="input-group-btn">
+      <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+    </div>
+  </div>
+  <br>
+
+   <div class="list-group" *ngFor="let user of users">
+    <a href="#" class="list-group-item" (click)="selectUser(user)">
+      <h4>{{user.FullName}}</h4>
+      <p>Email :{{user.Email}}</p>
+
+
+      <p id="position">position : {{user.Position}}</p>
+      <span class="list-group-item list-group-item-warning member-project">We Invest</span>
+      <span class="list-group-item list-group-item-warning member-project">Task Management</span>
       <span class="list-group-item list-group-item-warning member-project">project name</span>
     </a>
-    <a href="#" class="list-group-item">Second item</a>
-    <a href="#" class="list-group-item">Third item</a>
+
   </div>
   </div>
-</div>
+
+  <div class="col-xs-3" >
+    <h1 class="lead">Member Details</h1>
+
+    <br>
+    <hr>
+
+    <div class="member-container" *ngIf="selectedUser; else notSelected">
+      <label>Full Name:</label>
+      <p>{{ selectedUser.FullName }}</p>
+
+      <label>Current Position:</label>
+      <p>{{ selectedUser.Position }}</p>
+
+      <label>History:</label>
+      <ul class="list-group">
+        <li class="list-group-item" id="member-history">Tasks Completed <span class="badge">{{ selectedUser.TasksCompleted }}</span></li>
+        <li class="list-group-item" id="member-history">Meetings Attended <span class="badge">{{ selectedUser.MeetingsAttended }}</span></li>
+        <li class="list-group-item" id="member-history">Issues Resolved <span class="badge">{{ selectedUser.IssuesResolved }}</span></li>
+      </ul>
+      <label>Project Contributions:</label>
+<ul>
+  <li *ngFor="let contribution of projectContributions">
+    <strong>{{ contribution.projectName }}</strong>
+    <ul>
+      <li>Role: {{ contribution.role }}</li>
+      <li>Tasks Completed:
+        <ul>
+          <li *ngFor="let task of contribution.tasksCompleted">{{ task }}</li>
+        </ul>
+      </li>
+      <li>Achievements: {{ contribution.achievements }}</li>
+    </ul>
+  </li>
+</ul>
+    </div>
+  </div>
+
+  <ng-template #notSelected>
+    <!-- <li class="list-group-item list-group-item-success">First item</li>
+  <li class="list-group-item list-group-item-info">Second item</li> -->
+  <li class="list-group-item list-group-item-warning">No user selected.</li>
+  <!-- <li class="list-group-item list-group-item-danger">Fourth item</li> -->
+  </ng-template>
+
+
+
+    </div>
+
+
+
