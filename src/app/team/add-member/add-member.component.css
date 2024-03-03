@@ -1,0 +1,14 @@
+.form-container{
+  background-color: rgb(255, 254, 254);
+  padding: 20px;
+  margin-top: 10px;
+  border-radius: 4px;
+width: 400px;
+
+
+}
+
+#addmember-btn{
+  margin-left: 14px;
+  width: 300px;
+}

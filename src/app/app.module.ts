@@ -8,13 +8,17 @@ import { HeaderComponent } from './header/header.component';
 import { TeamComponent } from './team/team.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AddMemberComponent } from './team/add-member/add-member.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     ProjectDashboardComponent,
     HeaderComponent,
-    TeamComponent
+    TeamComponent,
+    AddMemberComponent,
+
   ],
   imports: [
     BrowserModule,

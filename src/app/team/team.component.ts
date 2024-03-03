@@ -1,4 +1,4 @@
-import { Component, TemplateRef } from '@angular/core';
+import { Component, Output, TemplateRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NgIfContext } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -9,6 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrl: './team.component.css'
 })
 export class TeamComponent {
+ addmember:boolean = false;
   projectContributions = [
     {
       projectName: 'Project A',
@@ -60,4 +61,17 @@ selectUser(user: any):void {
 }
 
 
+//function to open modal
+openModalFunction(content:any){
+this.modalService.open(content);
+}
+
+//function to close modal
+closeModalFunction(){
+this.modalService.dismissAll();
+}
+
+AddNewMember(addmember:boolean){
+this.addmember = addmember;
+}
 }
