@@ -8,7 +8,10 @@ import { HeaderComponent } from './header/header.component';
 import { TeamComponent } from './team/team.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AddMemberComponent } from './team/add-member/add-member.component';
+import { AddMemberService } from '../TeamServices/add-member-service.service';
+import { MemberFormComponent } from './team/add-member/add-member.component';
+import { FormsModule } from '@angular/forms';
+
 
 
 @NgModule({
@@ -17,14 +20,19 @@ import { AddMemberComponent } from './team/add-member/add-member.component';
     ProjectDashboardComponent,
     HeaderComponent,
     TeamComponent,
-    AddMemberComponent,
+    MemberFormComponent,
+
+
+
+
 
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    NgbModule
+    NgbModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,77 +1,72 @@
-import { Component, Output, TemplateRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { NgIfContext } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AddMemberService } from '../../TeamServices/add-member-service.service';
+import { DeleteMemberService } from '../../TeamServices/delete-member.service';
+import { FindMemberByNameService } from '../../TeamServices/find-member-by-name.service'; // Import the FindMemberByNameService
 
 @Component({
   selector: 'app-team',
   templateUrl: './team.component.html',
-  styleUrl: './team.component.css'
+  styleUrls: ['./team.component.css']
 })
 export class TeamComponent {
- addmember:boolean = false;
-  projectContributions = [
-    {
-      projectName: 'Project A',
-      role: 'Team Lead',
-      tasksCompleted: [
-        'Implemented feature X',
-        'Resolved bug Y',
-        'Conducted code reviews'
-      ],
-      achievements: 'Received employee of the month award'
-    },
-    {
-      projectName: 'Project B',
-      role: 'Developer',
-      tasksCompleted: [
-        'Refactored codebase',
-        'Improved performance',
-        'Participated in daily stand-ups'
-      ],
-      achievements: 'Successfully met project deadline'
-    }
-  ];
+  addmember = false;
+  users: any[] = [];
+  selectedUser: any | null = null;
+  name : string ='';
 
+  readonly APIUrl = "https://localhost:7205/api/User/";
 
-readonly APIUrl = "https://localhost:7205/api/User/";
-modal: any;
+  constructor(
+    private http: HttpClient,
+    private modalService: NgbModal,
+    private userService: AddMemberService,
+    private deleteMemberService: DeleteMemberService,
+    private findMemberByNameService: FindMemberByNameService // Inject the FindMemberByNameService
+  ) {
+    this.refreshUsers();
+  }
 
+  refreshUsers() {
+    this.http.get<any[]>(this.APIUrl + 'GetUser').subscribe((data: any[]) => {
+      this.users = data;
+    });
+  }
 
-constructor(private http: HttpClient, private modalService: NgbModal) {
-}
+  selectUser(user: any): void {
+    this.selectedUser = user;
+  }
 
-users: any[] = []; // Change the type of the 'users' array to 'Object[]'
-selectedUser: any | null = null;
+  openModal(content: any) {
+    this.modalService.open(content);
+  }
 
-refreshUsers() {
-  this.http.get(this.APIUrl + 'GetUser').subscribe(data => {
-    this.users = data as any[]; // Cast the data to 'Object[]'
-  });
-}
+  closeModal() {
+    this.modalService.dismissAll();
+  }
 
-ngOnInit() {
-  this.refreshUsers();
+  AddNewMember(addmember: boolean) {
+    this.addmember = addmember;
+  }
 
-}
+  editUser(user: any): void {
+    console.log('Editing user:', user);
+    // Implement edit functionality here
+  }
 
-selectUser(user: any):void {
-  this.selectedUser = user;
-  console.log(this.selectedUser);
-}
+  deleteUser(userId: number): void {
+    this.deleteMemberService.deleteMember(userId).subscribe(() => {
+      console.log('User deleted successfully');
+      this.refreshUsers();
+    }, (error) => {
+      console.error('Error deleting user:', error);
+    });
+  }
 
-
-//function to open modal
-openModalFunction(content:any){
-this.modalService.open(content);
-}
-
-//function to close modal
-closeModalFunction(){
-this.modalService.dismissAll();
-}
-
-AddNewMember(addmember:boolean){
-this.addmember = addmember;
-}
+  findMember(username: string): void {
+    this.findMemberByNameService.findMember(username).subscribe((data: any) => {
+      this.users = data;
+    });
+  }
 }

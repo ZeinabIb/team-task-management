@@ -1,33 +1,38 @@
-<div class="row container" >
+<div class="row container">
 
-  <div class="col-xs-9" >
+  <div class="col-xs-9">
     <h1 class="lead">Team List</h1>
-   <div class="input-group input-group-lg">
-    <input type="text" class="form-control" placeholder="Search">
-    <div class="input-group-btn">
-      <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+    <div class="input-group input-group-lg">
+      <input type="text" class="form-control" placeholder="Search" [(ngModel)]="name">
+      <div class="input-group-btn">
+        <button class="btn btn-default" type="submit" (click)="findMember(name)"><i class="glyphicon glyphicon-search"></i></button>
+      </div>
     </div>
+
+    <br>
+
+    <div class="list-group" *ngFor="let user of users">
+      <div class="list-group-item">
+        <div (click)="selectUser(user)">
+          <h4>{{user.FullName}}</h4>
+          <p>Email: {{user.Email}}</p>
+          <p id="position">Position: {{user.Position}}</p>
+          <span class="list-group-item list-group-item-warning member-project">We Invest</span>
+          <span class="list-group-item list-group-item-warning member-project">Task Management</span>
+          <span class="list-group-item list-group-item-warning member-project">Project name</span>
+        </div>
+        <div class="btn-group  pull-right edit-del-btn" role="group">
+          <button type="button" class="btn btn-primary" id="edit-btn" (click)="editUser(user)">Edit</button>
+          <button type="button" class="btn btn-danger" id="del-btn" (click)="deleteUser(user.UserId)">Delete</button>
+        </div>
+      </div>
+    </div>
+
   </div>
-  <br>
 
-   <div class="list-group" *ngFor="let user of users">
-    <a href="#" class="list-group-item" (click)="selectUser(user)">
-      <h4>{{user.FullName}}</h4>
-      <p>Email :{{user.Email}}</p>
-
-
-      <p id="position">position : {{user.Position}}</p>
-      <span class="list-group-item list-group-item-warning member-project">We Invest</span>
-      <span class="list-group-item list-group-item-warning member-project">Task Management</span>
-      <span class="list-group-item list-group-item-warning member-project">project name</span>
-    </a>
-
-  </div>
-  </div>
-
-  <div class="col-xs-3" >
+  <div class="col-xs-3">
     <h1 class="lead">Member Details</h1>
-    <button class="btn btn-primary" (click)="AddNewMember(true)" >Add new Member</button>
+    <button class="btn btn-primary" (click)="AddNewMember(true)">Add new Member</button>
     <app-add-member *ngIf="addmember === true"></app-add-member>
     <br>
     <hr>
@@ -45,34 +50,12 @@
         <li class="list-group-item" id="member-history">Meetings Attended <span class="badge">{{ selectedUser.MeetingsAttended }}</span></li>
         <li class="list-group-item" id="member-history">Issues Resolved <span class="badge">{{ selectedUser.IssuesResolved }}</span></li>
       </ul>
-      <label>Project Contributions:</label>
-<ul>
-  <li *ngFor="let contribution of projectContributions">
-    <strong>{{ contribution.projectName }}</strong>
-    <ul>
-      <li>Role: {{ contribution.role }}</li>
-      <li>Tasks Completed:
-        <ul>
-          <li *ngFor="let task of contribution.tasksCompleted">{{ task }}</li>
-        </ul>
-      </li>
-      <li>Achievements: {{ contribution.achievements }}</li>
-    </ul>
-  </li>
-</ul>
+
     </div>
+
+    <ng-template #notSelected>
+      <li class="list-group-item list-group-item-warning">No user selected.</li>
+    </ng-template>
+
   </div>
-
-  <ng-template #notSelected>
-    <!-- <li class="list-group-item list-group-item-success">First item</li>
-  <li class="list-group-item list-group-item-info">Second item</li> -->
-  <li class="list-group-item list-group-item-warning">No user selected.</li>
-  <!-- <li class="list-group-item list-group-item-danger">Fourth item</li> -->
-  </ng-template>
-
-
-
-    </div>
-
-
-
+</div>

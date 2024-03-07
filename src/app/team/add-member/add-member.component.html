@@ -1,23 +1,24 @@
-<form class="form-container">
+<form (ngSubmit)="addUser()">
+  <div class="form-group">
+    <label for="username">Username:</label>
+    <input type="text" class="form-control" id="username" required [(ngModel)]="username" name="username">
+  </div>
   <div class="form-group">
     <label for="fullName">Full Name:</label>
-    <input type="text" class="form-control" id="fullName" required>
+    <input type="text" class="form-control" id="fullName" required [(ngModel)]="fullName" name="fullName">
   </div>
   <div class="form-group">
     <label for="email">Email:</label>
-    <input type="email" class="form-control" id="email" required>
+    <input type="email" class="form-control" id="email" required [(ngModel)]="email" name="email">
   </div>
   <div class="form-group">
     <label for="position">Position:</label>
-    <input type="text" class="form-control" id="position" required>
+    <input type="text" class="form-control" id="position" required [(ngModel)]="position" name="position">
   </div>
-  <div class="form-group">
-    <div class="list-group-item list-group-item-info">Task, Meetings, Issues will be by default 0</div>
-  </div>
-  <div class="row">
-    <button class="btn btn-primary" id="addmember-btn">Add member</button>
-    &nbsp;
-    <button class="btn btn-dark" id="close-btn" (click)="CloseMemeberForm()">Close</button>
-  </div>
-
+  <button type="submit" class="btn btn-primary">Add User</button>
 </form>
+
+
+
+
+
