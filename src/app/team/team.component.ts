@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AddMemberService } from '../../TeamServices/add-member-service.service';
-import { DeleteMemberService } from '../../TeamServices/delete-member.service';
-import { FindMemberByNameService } from '../../TeamServices/find-member-by-name.service'; // Import the FindMemberByNameService
+import { AddMemberService } from '../../Services/TeamServices/add-member-service.service';
+import { DeleteMemberService } from '../../Services/TeamServices/delete-member.service';
+import { FindMemberByNameService } from '../../Services/TeamServices/find-member-by-name.service'; // Import the FindMemberByNameService
 
 @Component({
   selector: 'app-team',

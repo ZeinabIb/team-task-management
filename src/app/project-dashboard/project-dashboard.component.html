@@ -20,14 +20,10 @@
         </div>
         <div class="col-xs-3">
           <select class="form-control" id="members">
-            <option>Zeinab</option>
-            <option>Yasmin</option>
-            <option>Yara</option>
-            <option>Yasmine</option>
-
-
+            <option *ngFor="let member of members">{{ member }}</option>
           </select>
         </div>
+
         <div class="col-xs-2">
           <label for="role">Role:</label>
         </div>

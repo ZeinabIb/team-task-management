@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AddMemberService } from '../../../TeamServices/add-member-service.service';
+import { AddMemberService } from '../../../Services/TeamServices/add-member-service.service';
 
 @Component({
   selector: 'app-add-member',

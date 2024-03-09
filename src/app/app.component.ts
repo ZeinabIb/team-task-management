@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'team-task-management';
 
-  selectedValue = 'team';
+  selectedValue = 'projectDashboard';
   //readonly APIUrl = "https:/localhost:7205/api/User/";
 
 

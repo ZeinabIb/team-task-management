@@ -8,7 +8,7 @@ import { HeaderComponent } from './header/header.component';
 import { TeamComponent } from './team/team.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AddMemberService } from '../TeamServices/add-member-service.service';
+import { AddMemberService } from '../Services/TeamServices/add-member-service.service';
 import { MemberFormComponent } from './team/add-member/add-member.component';
 import { FormsModule } from '@angular/forms';
 
