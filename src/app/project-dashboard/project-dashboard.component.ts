@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { GetTeamListService } from '../../Services/TeamServices/get-team-list.service';
-
+import { CreateNewProjectService } from '../../Services/ProjectServices/create-new-project.service';
 @Component({
   selector: 'app-project-dashboard',
   templateUrl: './project-dashboard.component.html',
@@ -12,7 +12,14 @@ export class ProjectDashboardComponent {
   selectedRole : string ='';
   membersList: { name: string; role: string; }[] = [];
 
-  constructor(private teamListService: GetTeamListService) { }
+
+  projectName : string = '';
+  description : string = '';
+
+  projects : any[] = [];
+
+
+  constructor(private teamListService: GetTeamListService, private projectService: CreateNewProjectService) { }
 
   ngOnInit(): void {
     this.fetchTeamList();
@@ -59,6 +66,25 @@ export class ProjectDashboardComponent {
     return names.join(' - ');
   }
 
+  createProject(){
+    console.log("Project name ", this.projectName);
+    console.log("Description ", this.description);
+
+    this.projectService.createProject(this.projectName
+      , this.description).subscribe(
+        (project) => {
+          console.log('Project created successfully');
+          this.projects.push(project);
+        },
+        (error) => {
+          console.error('Failed to create project:', error);
+        }
+      );
+
+
+
+
+  }
 
   }
 
