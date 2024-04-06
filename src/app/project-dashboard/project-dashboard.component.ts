@@ -2,108 +2,121 @@ import { Component } from '@angular/core';
 import { GetTeamListService } from '../../Services/TeamServices/get-team-list.service';
 import { CreateNewProjectService } from '../../Services/ProjectServices/create-new-project.service';
 import { GetProjectListService } from '../../Services/ProjectServices/get-project-list.service';
+import { MemberProjectServiceService } from '../../Services/MemberRoleServices/member-project-service.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 @Component({
   selector: 'app-project-dashboard',
   templateUrl: './project-dashboard.component.html',
-  styleUrl: './project-dashboard.component.css'
+  styleUrls: ['./project-dashboard.component.css']
 })
 export class ProjectDashboardComponent {
-  members: string[] =[];
-  selectedMember: string ='' ;
-  selectedRole : string ='';
+  members: string[] = [];
+  selectedMember: string = '';
+  selectedRole: string = '';
   membersList: { name: string; role: string; }[] = [];
 
+  projectName: string | undefined;
+  description: string | undefined;
+  fromDate: Date | undefined;
+  toDate: Date | undefined;
+  status: string | undefined;
+  projectOwner: string | undefined;
 
-  // projectName : string = '';
-  // description : string = '';
+  projects: any[] = [];
 
-  // projects : any[] = [];
+  constructor(
+    private createProjectService: CreateNewProjectService,
+    private projectListService: GetProjectListService,
+    private memberProjectService: MemberProjectServiceService,
+    private snackBar: MatSnackBar
+  ) { }
 
+  ngOnInit(): void {
+    this.getProjectList();
+  }
 
-  // constructor(private teamListService: GetTeamListService, private projectService: CreateNewProjectService) { }
+  getProjectList(): void {
+    this.projectListService.getProjectList().subscribe(
+      (projects) => {
+        this.projects = projects;
 
-  // ngOnInit(): void {
-  //   this.fetchTeamList();
+        // Fetch member role for each project
+        this.projects.forEach((project, index) => {
+          this.memberProjectService.getMemberRoleByName(project.projectName).subscribe(
+            (memberRoles) => {
+              // Assign the member roles to the corresponding project
+              this.projects[index].memberRoles = memberRoles;
+            },
+            (error) => {
+              console.error('Error fetching member role:', error);
+            }
+          );
+        });
+      },
+      (error) => {
+        console.error('Error fetching project list:', error);
+      }
+    );
+  }
 
-  // }
-  // fetchTeamList() {
-  //   this.teamListService.getTeamList().subscribe(
-  //     (data: any[]) => {
-  //       console.log('Data from API:', data);
-  //       this.members = data.map(member => member.Username);
-  //     },
-  //     error => {
-  //       console.error('Error fetching team list:', error);
-  //     }
-  //   );
-  // }
-
-  // addMember() {
-  //   if (this.selectedMember && this.selectedRole) {
-  //     const existingMemberIndex = this.membersList.findIndex(member => member.name === this.selectedMember && member.role === this.selectedRole);
-
-  //     if (existingMemberIndex === -1) {
-  //       this.membersList.push({ name: this.selectedMember, role: this.selectedRole });
-  //     } else {
-  //       // If the member with the same name and role already exists, you can handle it here,
-  //       // such as showing a message or preventing the addition of duplicate members.
-  //       // For simplicity, I'm just logging a message here.
-  //       console.log('Member already exists');
-  //     }
-
-  //     this.selectedMember = '';
-  //     this.selectedRole = '';
-  //   }
-  // }
-
-
-  // isDuplicateRole(role: string): boolean {
-  //   const count = this.membersList.filter(member => member.role === role).length;
-  //   return count > 1;
-  // }
-
-  // getDuplicateNames(role: string): string {
-  //   const names = this.membersList.filter(member => member.role === role).map(member => member.name);
-  //   return names.join(' - ');
-  // }
-
-  // createProject(){
-  //   console.log("Project name ", this.projectName);
-  //   console.log("Description ", this.description);
-
-  //   this.projectService.createProject(this.projectName
-  //     , this.description).subscribe(
-  //       (project) => {
-  //         console.log('Project created successfully');
-  //         this.projects.push(project);
-  //       },
-  //       (error) => {
-  //         console.error('Failed to create project:', error);
-  //       }
-  //     );
-
-
-
-
-//  }
-projects: any[] = []; // Define an array to store the fetched projects
-
-constructor(private projectListService: GetProjectListService) { }
-
-ngOnInit(): void {
-  this.getProjectList(); // Call the method to fetch project list on component initialization
-}
-
-getProjectList(): void {
-  this.projectListService.getProjectList().subscribe(
-    (data) => {
-      this.projects = data; // Assign fetched projects to the array
-    },
-    (error) => {
-      console.error('Error fetching project list:', error);
+  createProject(): void {
+    let statusValue: number;
+    switch (this.status) {
+      case 'Pending':
+        statusValue = 0;
+        break;
+      case 'In Progress':
+        statusValue = 1;
+        break;
+      case 'Completed':
+        statusValue = 2;
+        break;
+      default:
+        // Invalid status value
+        console.error('Invalid status value. Please select a valid status.');
+        return;
     }
-  );
-}
-}
+
+    // Proceed with creating the project if status is valid
+    this.createProjectService.createProject(
+      this.projectName ?? '',
+      this.description ?? '',
+      this.fromDate?.toString() ?? '',
+      this.toDate?.toString() ?? '',
+      statusValue, // Use the validated status value
+      this.projectOwner ?? ''
+    ).subscribe(
+      (data) => {
+        console.log('Project created successfully:', data);
+        // Reset form fields if needed
+        this.resetForm();
+      },
+      (error: HttpErrorResponse) => {
+        console.error('Error creating project:', error);
+        if (error.status === 401) {
+          // Show warning message for unauthorized access
+          this.showUnauthorizedWarning();
+        }
+        // Handle other errors here
+      }
+    );
+  }
 
 
+  showUnauthorizedWarning(): void {
+    // Show warning message for unauthorized access
+    alert('Unauthorized! Please login to continue.');
+  }
+
+  resetForm(): void {
+    this.projectName = '';
+    this.description = '';
+    this.fromDate = undefined;
+    this.toDate = undefined;
+    this.status = '';
+    this.projectOwner = '';
+    // Reset other form fields if needed
+  }
+}

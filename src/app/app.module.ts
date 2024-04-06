@@ -12,6 +12,10 @@ import { MemberFormComponent } from './team/add-member/add-member.component';
 import { FormsModule } from '@angular/forms';
 import { DraftComponent } from './draft/draft.component';
 import { GroupByPipe } from './group-by-pipe.pipe';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -21,14 +25,19 @@ import { GroupByPipe } from './group-by-pipe.pipe';
     TeamComponent,
     MemberFormComponent,
     DraftComponent,
-    GroupByPipe
+    GroupByPipe,
+
+    LoginComponent
   ],
   imports: [
+    BrowserAnimationsModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     NgbModule,
     FormsModule,
+    MatSnackBarModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]

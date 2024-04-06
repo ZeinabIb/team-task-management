@@ -4,32 +4,13 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'] // Note: Correct property name is styleUrls, not styleUrl
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   title = 'team-task-management';
 
   selectedValue = 'projectDashboard';
-  //readonly APIUrl = "https:/localhost:7205/api/User/";
 
-
-  // constructor(private http: HttpClient) {
-
-  // }
-
-  // users:any=[];
-
-  // refreshUsers(){
-  //   this.http.get(this.APIUrl+'GetUser').subscribe(data=>{
-  //     this.users=data;
-
-  //   })
-  // }
-
-  // ngOnInit(){
-  //   this.refreshUsers();
-  // }
-  // Method to handle navigation changes
   onNavigate(value: string) {
     this.selectedValue = value;
   }

@@ -1,16 +1,6 @@
+<!-- app.html -->
 <app-header (selectedValue)="onNavigate($event)"></app-header>
 
-
-<!-- <h3 *ngFor="let user of users">
-
-  <b>
-
-    *{{user.Email}}
-
-  </b></h3> -->
-
 <app-project-dashboard *ngIf="selectedValue === 'projectDashboard'"></app-project-dashboard>
-
 <app-team *ngIf="selectedValue === 'team'"></app-team>
-
-<!-- <app-draft></app-draft> -->
+<app-login *ngIf="selectedValue === 'login'"></app-login>

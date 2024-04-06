@@ -1,58 +1,42 @@
-<div class="row container" >
-  <div class="col-sm-5 col-sm-offset-2 col-md-6 col-md-offset-0">
+<div class="row container">
+  <div class="col-md-6">
     <h4 class="lead">Create Project</h4>
-    <!-- <form>
-      <div class="form-group row">
-        <label for="project-title" class="col-sm-3 col-form-label">Project Title:</label>
-        <div class="col-sm-9">
-          <input type="text" class="form-control" id="project-title" name="projectTitle" [(ngModel)]="projectName">
-        </div>
+
+    <form #projectForm="ngForm" (ngSubmit)="createProject()">
+      <div class="form-group">
+        <label for="projectName">Project Name:</label>
+        <input type="text" class="form-control" id="projectName" name="projectName" [(ngModel)]="projectName" required>
       </div>
       <div class="form-group">
-        <label for="desc">Description:</label>
-        <textarea class="form-control" id="desc" rows="5" name="description" [(ngModel)]="description"></textarea>
+        <label for="description">Project Description:</label>
+        <textarea class="form-control" id="description" rows="5" name="description" [(ngModel)]="description" required></textarea>
       </div>
-      <div class="form-group row">
-        <div class="col-sm-3">
-          <label for="members">Team Member:</label>
-        </div>
-        <div class="col-xs-3">
-          <select class="form-control" id="members" name="selectedMember" [(ngModel)]="selectedMember">
-            <option *ngFor="let member of members" [ngValue]="member">{{ member }}</option>
-          </select>
-        </div>
-        <div class="col-xs-3">
-          <select class="form-control" id="role" name="selectedRole" [(ngModel)]="selectedRole">
-            <option value="Team Lead">Team Lead</option>
-            <option value="Developer">Developer</option>
-            <option value="Tester">Tester</option>
-            <option value="Designer">Designer</option>
-          </select>
-        </div>
-        <div style="margin-left: 20px;">
-          <button class="btn btn-primary" (click)="addMember()">Add member</button>
-        </div>
+      <div class="form-group">
+        <label for="fromDate">From Date:</label>
+        <input type="date" class="form-control" id="fromDate" name="fromDate" [(ngModel)]="fromDate" required>
       </div>
-      <div class="list-group">
-        <div *ngFor="let member of membersList">
-          <a href="#" class="list-group-item">
-            <span class="list-group-item-info member-name">{{ member.name }} - {{ member.role }}</span>
-            <span class="pull-right">
-              <i class="fa fa-trash"></i>
-            </span>
-          </a>
-        </div>
+      <div class="form-group">
+        <label for="toDate">To Date:</label>
+        <input type="date" class="form-control" id="toDate" name="toDate" [(ngModel)]="toDate" required>
       </div>
-       Remove (ngSubmit)="createProject()" from the <form> tag -->
-      <!-- Only the "Submit" button will trigger the form submission -->
-      <!-- Use (click)="createProject()" instead of (ngSubmit)="createProject()" -->
-      <!-- <button type="button" class="btn btn-success" (click)="createProject()">Submit</button> -->
-    <!-- </form>  -->
-</div>
+      <div class="form-group">
+        <label for="status">Status:</label>
+        <select class="form-control" id="status" name="status" [(ngModel)]="status" required>
+          <option value="Pending">Pending</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Completed">Completed</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="projectOwner">Project Owner:</label>
+        <input type="text" class="form-control" id="projectOwner" name="projectOwner" [(ngModel)]="projectOwner" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Create Project</button>
+    </form>
+  </div>
 
 
-
-  <div class="col-sm-5 col-sm-offset-2 col-md-6 col-md-offset-0">
+  <div class="col-md-6">
     <h4 class="lead">Project List</h4>
     <div class="input-group input-group-lg">
       <input type="text" class="form-control" placeholder="Search">
@@ -62,19 +46,28 @@
     </div>
     <hr>
 
-    <div class="list-group">
-      <div *ngFor="let project of projects" class="list-group">
-        <a href="#" class="list-group-item">
-          <h4>{{ project.projectName }}</h4>
-          <p>{{ project.projectDescription }}</p>
-
-          <span class="pull-right project-badge">
-            <i class="fa fa-edit"></i>
-            <i class="fa fa-trash"></i>
-          </span>
-
-        </a>
+    <div *ngFor="let project of projects" class="panel panel-default project-item">
+      <div class="panel-heading">
+        <h4 class="panel-title">{{ project.projectName }}</h4>
+        <span class="pull-right project-badge">
+          <i class="fa fa-edit"></i>
+          <i class="fa fa-trash"></i>
+        </span>
       </div>
+      <div class="panel-body">
+        <p>{{ project.projectDescription }}</p>
 
+        <div *ngIf="project.memberRoles && project.memberRoles.length > 0">
+          <h5>Member Roles:</h5>
+          <div class="list-inline">
+            <span *ngFor="let memberRole of project.memberRoles" class="tag">
+              <span class="label label-primary">{{ memberRole.memberName }} - {{ memberRole.role }}</span>
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
 
 </div>
