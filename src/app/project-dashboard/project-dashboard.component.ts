@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { GetTeamListService } from '../../Services/TeamServices/get-team-list.service';
 import { CreateNewProjectService } from '../../Services/ProjectServices/create-new-project.service';
+import { GetProjectListService } from '../../Services/ProjectServices/get-project-list.service';
 @Component({
   selector: 'app-project-dashboard',
   templateUrl: './project-dashboard.component.html',
@@ -13,82 +14,96 @@ export class ProjectDashboardComponent {
   membersList: { name: string; role: string; }[] = [];
 
 
-  projectName : string = '';
-  description : string = '';
+  // projectName : string = '';
+  // description : string = '';
 
-  projects : any[] = [];
+  // projects : any[] = [];
 
 
-  constructor(private teamListService: GetTeamListService, private projectService: CreateNewProjectService) { }
+  // constructor(private teamListService: GetTeamListService, private projectService: CreateNewProjectService) { }
 
-  ngOnInit(): void {
-    this.fetchTeamList();
+  // ngOnInit(): void {
+  //   this.fetchTeamList();
 
-  }
-  fetchTeamList() {
-    this.teamListService.getTeamList().subscribe(
-      (data: any[]) => {
-        console.log('Data from API:', data);
-        this.members = data.map(member => member.Username);
-      },
-      error => {
-        console.error('Error fetching team list:', error);
-      }
-    );
-  }
+  // }
+  // fetchTeamList() {
+  //   this.teamListService.getTeamList().subscribe(
+  //     (data: any[]) => {
+  //       console.log('Data from API:', data);
+  //       this.members = data.map(member => member.Username);
+  //     },
+  //     error => {
+  //       console.error('Error fetching team list:', error);
+  //     }
+  //   );
+  // }
 
-  addMember() {
-    if (this.selectedMember && this.selectedRole) {
-      const existingMemberIndex = this.membersList.findIndex(member => member.name === this.selectedMember && member.role === this.selectedRole);
+  // addMember() {
+  //   if (this.selectedMember && this.selectedRole) {
+  //     const existingMemberIndex = this.membersList.findIndex(member => member.name === this.selectedMember && member.role === this.selectedRole);
 
-      if (existingMemberIndex === -1) {
-        this.membersList.push({ name: this.selectedMember, role: this.selectedRole });
-      } else {
-        // If the member with the same name and role already exists, you can handle it here,
-        // such as showing a message or preventing the addition of duplicate members.
-        // For simplicity, I'm just logging a message here.
-        console.log('Member already exists');
-      }
+  //     if (existingMemberIndex === -1) {
+  //       this.membersList.push({ name: this.selectedMember, role: this.selectedRole });
+  //     } else {
+  //       // If the member with the same name and role already exists, you can handle it here,
+  //       // such as showing a message or preventing the addition of duplicate members.
+  //       // For simplicity, I'm just logging a message here.
+  //       console.log('Member already exists');
+  //     }
 
-      this.selectedMember = '';
-      this.selectedRole = '';
+  //     this.selectedMember = '';
+  //     this.selectedRole = '';
+  //   }
+  // }
+
+
+  // isDuplicateRole(role: string): boolean {
+  //   const count = this.membersList.filter(member => member.role === role).length;
+  //   return count > 1;
+  // }
+
+  // getDuplicateNames(role: string): string {
+  //   const names = this.membersList.filter(member => member.role === role).map(member => member.name);
+  //   return names.join(' - ');
+  // }
+
+  // createProject(){
+  //   console.log("Project name ", this.projectName);
+  //   console.log("Description ", this.description);
+
+  //   this.projectService.createProject(this.projectName
+  //     , this.description).subscribe(
+  //       (project) => {
+  //         console.log('Project created successfully');
+  //         this.projects.push(project);
+  //       },
+  //       (error) => {
+  //         console.error('Failed to create project:', error);
+  //       }
+  //     );
+
+
+
+
+//  }
+projects: any[] = []; // Define an array to store the fetched projects
+
+constructor(private projectListService: GetProjectListService) { }
+
+ngOnInit(): void {
+  this.getProjectList(); // Call the method to fetch project list on component initialization
+}
+
+getProjectList(): void {
+  this.projectListService.getProjectList().subscribe(
+    (data) => {
+      this.projects = data; // Assign fetched projects to the array
+    },
+    (error) => {
+      console.error('Error fetching project list:', error);
     }
-  }
-
-
-  isDuplicateRole(role: string): boolean {
-    const count = this.membersList.filter(member => member.role === role).length;
-    return count > 1;
-  }
-
-  getDuplicateNames(role: string): string {
-    const names = this.membersList.filter(member => member.role === role).map(member => member.name);
-    return names.join(' - ');
-  }
-
-  createProject(){
-    console.log("Project name ", this.projectName);
-    console.log("Description ", this.description);
-
-    this.projectService.createProject(this.projectName
-      , this.description).subscribe(
-        (project) => {
-          console.log('Project created successfully');
-          this.projects.push(project);
-        },
-        (error) => {
-          console.error('Failed to create project:', error);
-        }
-      );
-
-
-
-
-  }
-
-  }
-
-
-
+  );
+}
+}
 
 

@@ -1,7 +1,7 @@
-<div class="row">
+<div class="row container" >
   <div class="col-sm-5 col-sm-offset-2 col-md-6 col-md-offset-0">
     <h4 class="lead">Create Project</h4>
-    <form>
+    <!-- <form>
       <div class="form-group row">
         <label for="project-title" class="col-sm-3 col-form-label">Project Title:</label>
         <div class="col-sm-9">
@@ -43,11 +43,11 @@
           </a>
         </div>
       </div>
-      <!-- Remove (ngSubmit)="createProject()" from the <form> tag -->
+       Remove (ngSubmit)="createProject()" from the <form> tag -->
       <!-- Only the "Submit" button will trigger the form submission -->
       <!-- Use (click)="createProject()" instead of (ngSubmit)="createProject()" -->
-      <button type="button" class="btn btn-success" (click)="createProject()">Submit</button>
-    </form>
+      <!-- <button type="button" class="btn btn-success" (click)="createProject()">Submit</button> -->
+    <!-- </form>  -->
 </div>
 
 
@@ -63,87 +63,18 @@
     <hr>
 
     <div class="list-group">
-      <a href="#" class="list-group-item">
-        <h4>Project Title</h4>
-        <p>this is a project description.
-          to execute the end-to-end tests via a platform of your choice.
-          <br>
-          To use this command, you need to first add a package that implements end-to-end testing capabilities.</p>
+      <div *ngFor="let project of projects" class="list-group">
+        <a href="#" class="list-group-item">
+          <h4>{{ project.projectName }}</h4>
+          <p>{{ project.projectDescription }}</p>
 
-        <span class="pull-right project-badge">
-          <i class="fa fa-edit"></i>
-          <i class="fa fa-trash"></i>
-        </span>
-<br>
-        <span class="list-group-item-info member-name">Ralph</span>
-        <span class="list-group-item-info member-name">Elie</span>
-        <span class="list-group-item-info member-name">Zeinab</span>
-        <span class="list-group-item-info member-name">Edward</span>
-      </a>
+          <span class="pull-right project-badge">
+            <i class="fa fa-edit"></i>
+            <i class="fa fa-trash"></i>
+          </span>
 
-  </div>
-
-  <div class="list-group">
-    <a href="#" class="list-group-item">
-      <h4>Project Title</h4>
-      <p>this is a project description.
-        to execute the end-to-end tests via a platform of your choice.
-        <br>
-        To use this command, you need to first add a package that implements end-to-end testing capabilities.</p>
-
-      <span class="pull-right project-badge">
-        <i class="fa fa-edit"></i>
-        <i class="fa fa-trash"></i>
-      </span>
-<br>
-      <span class="list-group-item-info member-name">Ralph</span>
-      <span class="list-group-item-info member-name">Elie</span>
-      <span class="list-group-item-info member-name">Zeinab</span>
-      <span class="list-group-item-info member-name">Edward</span>
-    </a>
-
-</div>
-
-<div class="list-group">
-  <a href="#" class="list-group-item">
-    <h4>Project Title</h4>
-    <p>this is a project description.
-      to execute the end-to-end tests via a platform of your choice.
-      <br>
-      To use this command, you need to first add a package that implements end-to-end testing capabilities.</p>
-
-    <span class="pull-right project-badge">
-      <i class="fa fa-edit"></i>
-      <i class="fa fa-trash"></i>
-    </span>
-<br>
-    <span class="list-group-item-info member-name">Ralph</span>
-    <span class="list-group-item-info member-name">Elie</span>
-    <span class="list-group-item-info member-name">Zeinab</span>
-    <span class="list-group-item-info member-name">Edward</span>
-  </a>
-
-</div>
+        </a>
+      </div>
 
 
-<div class="list-group">
-  <a href="#" class="list-group-item">
-    <h4>Project Title</h4>
-    <p>this is a project description.
-      to execute the end-to-end tests via a platform of your choice.
-      <br>
-      To use this command, you need to first add a package that implements end-to-end testing capabilities.</p>
-
-    <span class="pull-right project-badge">
-      <i class="fa fa-edit"></i>
-      <i class="fa fa-trash"></i>
-    </span>
-<br>
-    <span class="list-group-item-info member-name">Ralph</span>
-    <span class="list-group-item-info member-name">Elie</span>
-    <span class="list-group-item-info member-name">Zeinab</span>
-    <span class="list-group-item-info member-name">Edward</span>
-  </a>
-
-</div>
 </div>
