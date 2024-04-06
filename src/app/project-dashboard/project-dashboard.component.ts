@@ -5,6 +5,7 @@ import { GetProjectListService } from '../../Services/ProjectServices/get-projec
 import { MemberProjectServiceService } from '../../Services/MemberRoleServices/member-project-service.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DeleteProjectService } from '../../Services/ProjectServices/delete-project.service';
 
 @Component({
   selector: 'app-project-dashboard',
@@ -23,14 +24,15 @@ export class ProjectDashboardComponent {
   toDate: Date | undefined;
   status: string | undefined;
   projectOwner: string | undefined;
-
+  projectId= 4;
   projects: any[] = [];
 
   constructor(
     private createProjectService: CreateNewProjectService,
     private projectListService: GetProjectListService,
     private memberProjectService: MemberProjectServiceService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private deleteProjectService : DeleteProjectService
   ) { }
 
   ngOnInit(): void {
@@ -118,5 +120,27 @@ export class ProjectDashboardComponent {
     this.status = '';
     this.projectOwner = '';
     // Reset other form fields if needed
+  }
+
+  onDeleteProject(project: any): void {
+    if (!confirm('Are you sure you want to delete this project?')) {
+      return;
+    }
+
+    // Retrieve the project ID from the project object
+    const projectIdToDelete = project.projectId;
+
+    console.log('Project ID to delete:', projectIdToDelete);
+
+    this.deleteProjectService.deleteProject(projectIdToDelete).subscribe(
+      (data) => {
+        console.log('Project deleted successfully:', data);
+        // Optionally, handle any UI updates or navigation after successful deletion
+      },
+      (error) => {
+        console.error('Error deleting project:', error);
+        // Optionally, handle error messages or UI updates on deletion failure
+      }
+    );
   }
 }
