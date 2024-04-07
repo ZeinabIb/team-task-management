@@ -16,6 +16,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { LoginComponent } from './login/login.component';
+import { RequestDayOffComponent } from './request-day-off/request-day-off.component';
+import { CalendarModule } from 'angular-calendar';
+import { DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+
+
+
 
 @NgModule({
   declarations: [
@@ -27,7 +34,9 @@ import { LoginComponent } from './login/login.component';
     DraftComponent,
     GroupByPipe,
 
-    LoginComponent
+    LoginComponent,
+      RequestDayOffComponent,
+
   ],
   imports: [
     BrowserAnimationsModule,
@@ -36,8 +45,13 @@ import { LoginComponent } from './login/login.component';
     HttpClientModule,
     NgbModule,
     FormsModule,
-    MatSnackBarModule
-
+    MatSnackBarModule,
+    BrowserAnimationsModule,
+    BrowserAnimationsModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]

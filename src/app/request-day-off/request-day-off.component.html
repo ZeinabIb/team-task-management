@@ -1,0 +1,65 @@
+<div class="container-fluid">
+  <div class="row">
+
+    <div class="col-md-8">
+      <div class="month">
+        <ul>
+          <li class="prev" (click)="prevMonth()">&#10094;</li>
+          <li class="next" (click)="nextMonth()">&#10095;</li>
+          <li>{{ viewDate | date: 'MMMM' }}<br><span style="font-size:18px">{{ viewDate | date: 'yyyy' }}</span></li>
+        </ul>
+      </div>
+
+      <ul class="weekdays">
+        <li *ngFor="let day of ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']">{{ day }}</li>
+      </ul>
+
+      <ul class="days">
+        <li *ngFor="let day of getDaysInMonth(viewDate)">
+          <span [ngClass]="{ 'active': day.day === viewDate.getDate(), 'highlight': day.highlight }">{{ day.day }}</span>
+        </li>
+      </ul>
+
+    </div>
+
+    <div class="col-md-4">
+
+      <!-- Form -->
+      <div class="form-container">
+        <form (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="fullName">Full Name:</label>
+            <input type="text" class="form-control" id="fullName" name="fullName" [(ngModel)]="formData.fullName">
+          </div>
+
+          <div class="form-group">
+            <label for="fromDate">From Date:</label>
+            <input type="date" class="form-control" id="fromDate" name="fromDate" [(ngModel)]="formData.fromDate">
+          </div>
+
+          <div class="form-group">
+            <label for="toDate">To Date:</label>
+            <input type="date" class="form-control" id="toDate" name="toDate" [(ngModel)]="formData.toDate">
+          </div>
+
+          <div class="form-group">
+            <label for="reason">Reason:</label>
+            <textarea class="form-control" id="reason" name="reason" [(ngModel)]="formData.reason"></textarea>
+          </div>
+
+          <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="isMakingUp" name="isMakingUp" [(ngModel)]="formData.isMakingUp">
+            <label class="form-check-label" for="isMakingUp">Is Making Up</label>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <div class="alert alert-success" *ngIf="showAlert" style="margin-top: 20px;">
+          Request submitted successfully!
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
