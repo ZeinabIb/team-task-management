@@ -6,6 +6,8 @@ import { MemberProjectServiceService } from '../../Services/MemberRoleServices/m
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DeleteProjectService } from '../../Services/ProjectServices/delete-project.service';
+import { PostMemberRoleService } from '../../Services/MemberRoleServices/post-member-role.service';
+import { SearchProjectByNameService } from '../../Services/ProjectServices/search-project-by-name.service';
 
 @Component({
   selector: 'app-project-dashboard',
@@ -17,7 +19,10 @@ export class ProjectDashboardComponent {
   selectedMember: string = '';
   selectedRole: string = '';
   membersList: { name: string; role: string; }[] = [];
-
+  displaymemberList: any[] = [];
+  selectedTeamMember: any | undefined;
+  roles: string[] = ['Software Engineer', 'QA Engineer', 'Project Manager', 'Product Manager', 'UI/UX Designer', 'DevOps Engineer', 'Database Administrator'];
+  teamselectedRole: string= "";
   projectName: string | undefined;
   description: string | undefined;
   fromDate: Date | undefined;
@@ -26,17 +31,21 @@ export class ProjectDashboardComponent {
   projectOwner: string | undefined;
   projectId= 4;
   projects: any[] = [];
-
+  searchQuery: string = '';
   constructor(
     private createProjectService: CreateNewProjectService,
     private projectListService: GetProjectListService,
     private memberProjectService: MemberProjectServiceService,
     private snackBar: MatSnackBar,
-    private deleteProjectService : DeleteProjectService
+    private deleteProjectService : DeleteProjectService,
+    private teamListService: GetTeamListService,
+    private postMemberRoleService: PostMemberRoleService,
+    private searchProjectByName : SearchProjectByNameService
   ) { }
 
   ngOnInit(): void {
     this.getProjectList();
+    this.fetchTeamList();
   }
 
   getProjectList(): void {
@@ -143,4 +152,52 @@ export class ProjectDashboardComponent {
       }
     );
   }
+  fetchTeamList(): void {
+    this.teamListService.getTeamList().subscribe(
+      (data: any[]) => {
+        this.displaymemberList = data;
+        console.log('Team List:', this.displaymemberList);
+      },
+      (error) => {
+        console.error('Error fetching team list:', error);
+      }
+    );
+  }
+
+  selectTeamMember(member: any): void {
+    this.selectedTeamMember = member;
+  }
+  addMemberRole(): void {
+    // Check if selectedTeamMember is defined before accessing its properties
+    if (this.selectedTeamMember) {
+      // Assuming projectName and teamselectedRole are component variables
+      this.postMemberRoleService.postMemberRole(this.selectedTeamMember.fullName, this.projectName ?? '', this.teamselectedRole ?? '')
+        .subscribe(
+          (response) => {
+            // Handle success
+            console.log('Member role added successfully:', response);
+          },
+          (error) => {
+            // Handle error
+            console.error('Error adding member role:', error);
+          }
+        );
+    } else {
+      console.error('No team member selected.');
+    }
+  }
+  searchProject(): void {
+    if (this.searchQuery.trim() !== '') {
+    this.searchProjectByName.searchProjectByName(this.searchQuery).subscribe(
+      (projects) => {
+        console.log('Search result:', projects);
+        this.projects = projects;
+      },
+      (error) => {
+        console.error('Error fetching project list:', error);
+      }
+    );
+  }
+}
+
 }

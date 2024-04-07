@@ -31,20 +31,46 @@
         <label for="projectOwner">Project Owner:</label>
         <input type="text" class="form-control" id="projectOwner" name="projectOwner" [(ngModel)]="projectOwner" required>
       </div>
+
+
+      <div class="row">
+        <div class="form-group col-md-6">
+          <label for="member">Member:</label>
+          <select class="form-control" id="member" name="member" [(ngModel)]="selectedTeamMember">
+            <option *ngFor="let member of displaymemberList" [ngValue]="member">{{ member.fullName }}</option>
+          </select>
+        </div>
+
+
+        <div class="form-group col-md-4">
+          <label for="role">Role:</label>
+          <select class="form-control" id="role" name="role" [(ngModel)]="teamselectedRole">
+            <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+          </select>
+        </div>
+
+        <div class="form-group col-md-2">
+          <button type="button" class="btn btn-success" (click)="addMemberRole()">Add</button>
+        </div>
+
+
+
+
+      </div>
+
       <button type="submit" class="btn btn-primary">Create Project</button>
     </form>
   </div>
 
-
   <div class="col-md-6">
     <h4 class="lead">Project List</h4>
     <div class="input-group input-group-lg">
-      <input type="text" class="form-control" placeholder="Search">
+      <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchQuery">
       <div class="input-group-btn">
-        <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+        <button class="btn btn-default" type="button" (click)="searchProject()">Search</button>
       </div>
     </div>
-    <hr>
+
 
     <div *ngFor="let project of projects" class="panel panel-default project-item">
       <div class="panel-heading">
@@ -52,7 +78,6 @@
         <span class="pull-right project-badge">
           <i class="fa fa-edit"></i>
           <i class="fa fa-trash" (click)="onDeleteProject(project)"></i>
-
         </span>
       </div>
       <div class="panel-body">
@@ -66,9 +91,7 @@
             </span>
           </div>
         </div>
-
       </div>
     </div>
   </div>
-
 </div>
