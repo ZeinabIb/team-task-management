@@ -20,6 +20,7 @@ import { RequestDayOffComponent } from './request-day-off/request-day-off.compon
 import { CalendarModule } from 'angular-calendar';
 import { DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { TasksComponent } from './tasks/tasks.component';
 
 
 
@@ -36,6 +37,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
     LoginComponent,
       RequestDayOffComponent,
+      TasksComponent,
 
   ],
   imports: [

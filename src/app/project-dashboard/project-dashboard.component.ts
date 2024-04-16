@@ -23,7 +23,7 @@ export class ProjectDashboardComponent {
   selectedTeamMember: any | undefined;
   roles: string[] = ['Software Engineer', 'QA Engineer', 'Project Manager', 'Product Manager', 'UI/UX Designer', 'DevOps Engineer', 'Database Administrator'];
   teamselectedRole: string= "";
-  projectName: string | undefined;
+  Name: string | undefined;
   description: string | undefined;
   fromDate: Date | undefined;
   toDate: Date | undefined;
@@ -52,18 +52,23 @@ export class ProjectDashboardComponent {
     this.projectListService.getProjectList().subscribe(
       (projects) => {
         this.projects = projects;
+        console.log('Fetched projects:', this.projects);
 
         // Fetch member role for each project
         this.projects.forEach((project, index) => {
-          this.memberProjectService.getMemberRoleByName(project.projectName).subscribe(
-            (memberRoles) => {
-              // Assign the member roles to the corresponding project
-              this.projects[index].memberRoles = memberRoles;
-            },
-            (error) => {
-              console.error('Error fetching member role:', error);
-            }
-          );
+          if (project.name) { // Check if project name is defined
+            console.log('Fetching member roles for project:', project.name);
+            this.memberProjectService.getMemberRoleByName(project.name).subscribe(
+              (memberRoles) => {
+                // Assign the member roles to the corresponding project
+                this.projects[index].memberRoles = memberRoles;
+                console.log('Member roles for project', project.name, ':', memberRoles);
+              },
+              (error) => {
+                console.error('Error fetching member roles for project', project.name, ':', error);
+              }
+            );
+          }
         });
       },
       (error) => {
@@ -71,6 +76,8 @@ export class ProjectDashboardComponent {
       }
     );
   }
+
+
 
   createProject(): void {
     let statusValue: number;
@@ -92,7 +99,7 @@ export class ProjectDashboardComponent {
 
     // Proceed with creating the project if status is valid
     this.createProjectService.createProject(
-      this.projectName ?? '',
+      this.Name ?? '',
       this.description ?? '',
       this.fromDate?.toString() ?? '',
       this.toDate?.toString() ?? '',
@@ -122,7 +129,7 @@ export class ProjectDashboardComponent {
   }
 
   resetForm(): void {
-    this.projectName = '';
+    this.Name = '';
     this.description = '';
     this.fromDate = undefined;
     this.toDate = undefined;
@@ -167,25 +174,35 @@ export class ProjectDashboardComponent {
   selectTeamMember(member: any): void {
     this.selectedTeamMember = member;
   }
-  addMemberRole(): void {
-    // Check if selectedTeamMember is defined before accessing its properties
-    if (this.selectedTeamMember) {
-      // Assuming projectName and teamselectedRole are component variables
-      this.postMemberRoleService.postMemberRole(this.selectedTeamMember.fullName, this.projectName ?? '', this.teamselectedRole ?? '')
-        .subscribe(
-          (response) => {
-            // Handle success
-            console.log('Member role added successfully:', response);
-          },
-          (error) => {
-            // Handle error
-            console.error('Error adding member role:', error);
-          }
-        );
-    } else {
-      console.error('No team member selected.');
-    }
+ addMemberRole(): void {
+  // Check if selectedTeamMember is defined before accessing its properties
+  if (this.selectedTeamMember) {
+    // Assuming Name and teamselectedRole are component variables
+    this.postMemberRoleService.postMemberRole(this.selectedTeamMember.fullName, this.Name ?? '', this.teamselectedRole ?? '')
+      .subscribe(
+        (response) => {
+          // Handle success
+          console.log('Member role added successfully:', response);
+          // Add the member role to the current project's memberRoles array
+          this.projects.forEach((project) => {
+            if (project.Name === this.Name) {
+              project.memberRoles.push({
+                memberName: this.selectedTeamMember.fullName,
+                role: this.teamselectedRole
+              });
+            }
+          });
+        },
+        (error) => {
+          // Handle error
+          console.error('Error adding member role:', error);
+        }
+      );
+  } else {
+    console.error('No team member selected.');
   }
+}
+
   searchProject(): void {
     if (this.searchQuery.trim() !== '') {
     this.searchProjectByName.searchProjectByName(this.searchQuery).subscribe(

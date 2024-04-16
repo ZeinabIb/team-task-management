@@ -4,8 +4,8 @@
 
     <form #projectForm="ngForm" (ngSubmit)="createProject()">
       <div class="form-group">
-        <label for="projectName">Project Name:</label>
-        <input type="text" class="form-control" id="projectName" name="projectName" [(ngModel)]="projectName" required>
+        <label for="Name">Project Name:</label>
+        <input type="text" class="form-control" id="Name" name="Name" [(ngModel)]="Name" required>
       </div>
       <div class="form-group">
         <label for="description">Project Description:</label>
@@ -32,7 +32,6 @@
         <input type="text" class="form-control" id="projectOwner" name="projectOwner" [(ngModel)]="projectOwner" required>
       </div>
 
-
       <div class="row">
         <div class="form-group col-md-6">
           <label for="member">Member:</label>
@@ -40,6 +39,8 @@
             <option *ngFor="let member of displaymemberList" [ngValue]="member">{{ member.fullName }}</option>
           </select>
         </div>
+
+
 
 
         <div class="form-group col-md-4">
@@ -52,9 +53,7 @@
         <div class="form-group col-md-2">
           <button type="button" class="btn btn-success" (click)="addMemberRole()">Add</button>
         </div>
-
-
-
+        <div>list group name - role</div>
 
       </div>
 
@@ -69,29 +68,33 @@
       <div class="input-group-btn">
         <button class="btn btn-default" type="button" (click)="searchProject()">Search</button>
       </div>
-    </div>
 
+    </div>
+<hr>
 
     <div *ngFor="let project of projects" class="panel panel-default project-item">
       <div class="panel-heading">
-        <h4 class="panel-title">{{ project.projectName }}</h4>
+        <h4 class="panel-title">{{ project.name }}</h4>
         <span class="pull-right project-badge">
           <i class="fa fa-edit"></i>
           <i class="fa fa-trash" (click)="onDeleteProject(project)"></i>
         </span>
       </div>
       <div class="panel-body">
-        <p>{{ project.projectDescription }}</p>
+        <p>{{ project.description }}</p>
 
-        <div *ngIf="project.memberRoles && project.memberRoles.length > 0">
-          <h5>Member Roles:</h5>
-          <div class="list-inline">
-            <span *ngFor="let memberRole of project.memberRoles" class="tag">
-              <span class="label label-primary">{{ memberRole.memberName }} - {{ memberRole.role }}</span>
-            </span>
+
+            <h5>Member Roles:</h5>
+            <div class="list-inline">
+              <span *ngFor="let memberRole of project.memberRoles">
+                <ng-container *ngIf="memberRole.memberName && memberRole.memberName !== 'string' && memberRole.memberName !== 'undefined'">
+                  <span class="tag">
+                    <span class="list-group-item list-group-item-info member-name">{{ memberRole.memberName }} - {{ memberRole.role }}</span>
+                  </span>
+                </ng-container>
+              </span>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</div>

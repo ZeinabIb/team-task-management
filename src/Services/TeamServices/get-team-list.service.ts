@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+
 export class GetTeamListService {
   private apiUrl = 'https://localhost:7255/api/TeamMember';
 

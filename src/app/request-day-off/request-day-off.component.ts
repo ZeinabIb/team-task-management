@@ -41,11 +41,11 @@ export class RequestDayOffComponent {
     this.dayOffService.requestDayOff(this.formData).subscribe(
       (response) => {
         console.log('Request submitted successfully!', response);
-        this.showAlert = true; // Display the success alert
-        this.formData.vacationDuration = response.vacationDuration; // Set the vacation duration
-        this.resetForm(); // Reset the form
+        this.showAlert = true;
+        this.formData.vacationDuration = response.vacationDuration;
+        this.resetForm();
         setTimeout(() => {
-          this.showAlert = false; // Hide the success alert after 3 seconds
+          this.showAlert = false; 
         }, 3000);
       },
       (error) => {

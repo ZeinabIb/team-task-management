@@ -1,0 +1,29 @@
+<div class="container mt-5">
+  <h2>Tasks List</h2>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>#ID</th>
+        <th>Task Name</th>
+        <th>Task Description</th>
+        <th>Assigned To</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let task of tasks" [ngClass]="{'active': task.status === 0, 'qa-validation': task.status === 2, 'done': task.status === 3}">
+        <td>{{ task.taskId }}</td>
+        <td>{{ task.taskName }}</td>
+        <td>{{ task.taskDescription }}</td>
+        <td>{{ task.assignedTo }}</td>
+        <td>
+          <span class="list-group-item list-group-item-success" style="display: inline; border-radius: 20px ;" *ngIf="task.status === 0">Active</span>
+          <span *ngIf="task.status === 1">QA Validation</span>
+          <span *ngIf="task.status === 2">Done</span>
+        </td>
+
+      </tr>
+    </tbody>
+  </table>
+</div>
