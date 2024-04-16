@@ -17,10 +17,11 @@
           <h4>{{ user.fullName }}</h4>
           <p>Email: {{ user.email }}</p>
           <p id="position">Position: {{ user.position }}</p>
-          <div class="btn-group pull-right edit-del-btn" role="group">
-            <button type="button" class="btn btn-primary" id="edit-btn" (click)="editUser(user)">Edit</button>
-            <button type="button" class="btn btn-danger" id="del-btn" (click)="deleteUser(user.UserId)">Delete</button>
+          <div class="btn-group pull-right" role="group">
+            <span class="badge badge-primary badge1" style="cursor: pointer;" (click)="editUser(user)">Edit</span>
+            <span class="badge badge-danger badge1" style="cursor: pointer;" (click)="deleteUser(user.UserId)">Delete</span>
           </div>
+
         </div>
       </div>
     </div>
@@ -52,8 +53,7 @@
       </ng-template>
     </div>
 
-    <!-- Filters -->
-   <!-- Filters -->
+
 <div class="col-xs-3">
   <h1 class="display-4">Filters</h1>
   <div>
@@ -67,7 +67,6 @@
       Get Employee of the Year
     </button>
 
-    <!-- Display names here -->
     <div *ngIf="displayedNames && displayedNames.length > 0">
       <h2 class="h4">Team Members:</h2>
       <ul class="list-group">

@@ -1,7 +1,7 @@
-<div class="container-fluid">
+<div class="container">
   <div class="row">
 
-    <div class="col-md-8">
+    <div class="col-md-12">
       <div class="month">
         <ul>
           <li class="prev" (click)="prevMonth()">&#10094;</li>
@@ -19,19 +19,15 @@
           <span [ngClass]="{ 'active': day.day === viewDate.getDate(), 'highlight': day.highlight }">{{ day.day }}</span>
         </li>
       </ul>
-
     </div>
 
-    <div class="col-md-4">
 
-      <!-- Form -->
-      <div class="form-container">
-        <form (ngSubmit)="onSubmit()">
-          <div class="form-group">
+      <div class="form-container" >
+        <form (ngSubmit)="onSubmit()" >
+          <div class="form-group" >
             <label for="fullName">Full Name:</label>
             <input type="text" class="form-control" id="fullName" name="fullName" [(ngModel)]="formData.fullName">
           </div>
-
           <div class="form-group">
             <label for="fromDate">From Date:</label>
             <input type="date" class="form-control" id="fromDate" name="fromDate" [(ngModel)]="formData.fromDate">
@@ -59,7 +55,4 @@
         </div>
       </div>
     </div>
-
   </div>
-
-</div>
